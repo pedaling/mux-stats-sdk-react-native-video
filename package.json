@@ -1,5 +1,5 @@
 {
-  "name": "mux-react-native-video-sdk",
+  "name": "@class101/mux-react-native-video-sdk",
   "version": "0.5.1",
   "author": "Mux, Inc.",
   "description": "Mux analytics plugin for react-native-video",
