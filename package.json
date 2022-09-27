@@ -1,10 +1,11 @@
 {
   "name": "@class101/mux-react-native-video-sdk",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "author": "Mux, Inc.",
   "description": "Mux analytics plugin for react-native-video",
   "homepage": "https://github.com/muxinc/mux-stats-sdk-react-native-video",
   "license": "MIT",
+  "types": "index.d.ts",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint 'src/*.js' --quiet"
