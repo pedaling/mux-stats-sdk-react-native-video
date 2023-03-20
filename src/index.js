@@ -24,6 +24,7 @@ export default (WrappedComponent) => {
     onPlaybackRateChange = noop,
     onFullscreenPlayerDidPresent = noop,
     onFullscreenPlayerDidDismiss = noop,
+    onError = noop,
     muxOptions,
     progressUpdateInterval,
     source,
@@ -88,6 +89,11 @@ export default (WrappedComponent) => {
       emit('seeked');
       onSeek(evt);
     };
+
+    const _onError = evt => {
+      emit('error', evt);
+      onError(evt)
+    }
 
     const _onLoad = evt => {
       if (evt.duration) {
@@ -249,6 +255,7 @@ export default (WrappedComponent) => {
       <WrappedComponent
         onProgress={_onProgress}
         onEnd={_onEnd}
+        onError={_onError}
         onSeek={_onSeek}
         onLoad={_onLoad}
         onPlaybackRateChange={_onPlaybackRateChange}
