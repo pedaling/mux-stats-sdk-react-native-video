@@ -24,6 +24,7 @@ export default (WrappedComponent) => {
     onPlaybackRateChange = noop,
     onFullscreenPlayerDidPresent = noop,
     onFullscreenPlayerDidDismiss = noop,
+    onBandwidthUpdate = noop,
     onError = noop,
     muxOptions,
     progressUpdateInterval,
@@ -153,6 +154,23 @@ export default (WrappedComponent) => {
       onFullscreenPlayerDidDismiss(evt);
     };
 
+    const _onBandwidthUpdate = evt => {
+      const lastVideoWidth = getStateForPlayer('lastVideoWidth');
+      const lastVideoHeight = getStateForPlayer('lastVideoHeight');
+
+      if (evt.width && evt.height && (lastVideoWidth != evt.width || lastVideoHeight != evt.height)) {
+        emit("renditionchange",
+          {
+            video_source_bitrate: evt.bitrate,
+            video_source_width: evt.width,
+            video_source_height: evt.height,
+          })
+        saveStateForPlayer("lastVideoWidth", evt.width);
+        saveStateForPlayer("lastVideoHeight", evt.height);
+      }
+      onBandwidthUpdate(evt);
+    }
+
     useEffect(() => {
       options.getPlayheadTime = () => {
         return getStateForPlayer('currentTime');
@@ -262,6 +280,7 @@ export default (WrappedComponent) => {
         progressUpdateInterval={progressUpdateInterval}
         onFullscreenPlayerDidPresent={_onFullscreenPlayerDidPresent}
         onFullscreenPlayerDidDismiss={_onFullscreenPlayerDidDismiss}
+        onBandwidthUpdate={_onBandwidthUpdate}
         source={source}
         ref={videoRef}
         {...otherProps}
