@@ -92,7 +92,20 @@ export default (WrappedComponent) => {
     };
 
     const _onError = evt => {
-      emit('error', evt);
+      const { error } = evt;
+
+      const playerError = Platform.select({
+        ios: {
+          player_error_code: error.code,
+          player_error_message: error.localizedFailureReason
+        },
+        android: {
+          player_error_code: error.errorCode,
+          player_error_message: error.errorString
+        }
+      })
+
+      emit('error', playerError);
       onError(evt)
     }
 
