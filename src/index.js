@@ -97,11 +97,11 @@ export default (WrappedComponent) => {
       const playerError = Platform.select({
         ios: {
           player_error_code: error.code,
-          player_error_message: error.localizedFailureReason
+          player_error_message: error?.localizedFailureReason || error?.localizedDescription,
         },
         android: {
           player_error_code: error.errorCode,
-          player_error_message: error.errorString
+          player_error_message: error?.errorException || error?.errorString,
         }
       })
 
